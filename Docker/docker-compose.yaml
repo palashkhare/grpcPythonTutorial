@@ -1,20 +1,20 @@
 version: "3.7"
 services:
   python-grpc-server:
-    container_name: python-grpc-server
-    image: python-grpc-server:0.0.2
+    container_name: ${SERVER_CONTAINER_NAME}
+    image: ${SERVER_CONTAINER_IMAGE_NAME}:${SERVER_CONTAINER_VERSION}
     ports:
-     - 50050:50050
+     - ${LOCALHOST_PORT}:${GRPC_PORT}
     environment:
-      GRPC_PORT: 50050
+      GRPC_PORT: ${GRPC_PORT}
     network_mode: default
   
   python-grpc-client:
-    container_name: python-grpc-client
-    image: python-grpc-client:0.0.2
+    container_name: ${CLIENT_CONTAINER_NAME}
+    image: ${CLIENT_CONTAINER_IMAGE_NAME}:${CLIENT_CONTAINER_VERSION}
     links:
-      - python-grpc-server
+      - ${SERVER_CONTAINER_NAME}
     environment:
-      GRPC_PORT: 50050
-      GRPC_HOST: python-grpc-server
+      GRPC_PORT: ${GRPC_PORT}
+      GRPC_HOST: ${SERVER_CONTAINER_NAME}
     network_mode: default

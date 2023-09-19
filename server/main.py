@@ -4,7 +4,7 @@ import grpc
 import random
 
 from pb.recommendations_pb2_grpc import RecommendationsServicer, add_RecommendationsServicer_to_server
-from pb.recommendations_pb2 import RecommendationResponse
+from pb.recommendations_pb2 import RecommendationResponse, SingleOutput
 
 from books_db import BOOKS_BY_CATEGORY
 
@@ -22,6 +22,11 @@ class RecommendationsService(RecommendationsServicer):
         )
 
         return RecommendationResponse(recommendations=books_to_recommend)
+
+    def Dummy(self, request, context):
+        return SingleOutput(
+            response="Test response success!"
+        )
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))

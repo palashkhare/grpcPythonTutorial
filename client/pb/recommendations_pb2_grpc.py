@@ -19,12 +19,23 @@ class RecommendationsStub(object):
                 request_serializer=recommendations__pb2.RecommendationRequest.SerializeToString,
                 response_deserializer=recommendations__pb2.RecommendationResponse.FromString,
                 )
+        self.Dummy = channel.unary_unary(
+                '/Recommendations/Dummy',
+                request_serializer=recommendations__pb2.SingleInput.SerializeToString,
+                response_deserializer=recommendations__pb2.SingleOutput.FromString,
+                )
 
 
 class RecommendationsServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def Recommend(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def Dummy(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -37,6 +48,11 @@ def add_RecommendationsServicer_to_server(servicer, server):
                     servicer.Recommend,
                     request_deserializer=recommendations__pb2.RecommendationRequest.FromString,
                     response_serializer=recommendations__pb2.RecommendationResponse.SerializeToString,
+            ),
+            'Dummy': grpc.unary_unary_rpc_method_handler(
+                    servicer.Dummy,
+                    request_deserializer=recommendations__pb2.SingleInput.FromString,
+                    response_serializer=recommendations__pb2.SingleOutput.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -62,5 +78,22 @@ class Recommendations(object):
         return grpc.experimental.unary_unary(request, target, '/Recommendations/Recommend',
             recommendations__pb2.RecommendationRequest.SerializeToString,
             recommendations__pb2.RecommendationResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def Dummy(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Recommendations/Dummy',
+            recommendations__pb2.SingleInput.SerializeToString,
+            recommendations__pb2.SingleOutput.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

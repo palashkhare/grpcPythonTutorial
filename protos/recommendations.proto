@@ -17,10 +17,19 @@ message BookRecommendation {
     string title = 2;
 }
 
+message SingleOutput {
+    string response = 1;
+}
+
+message SingleInput {
+    string request = 1;
+}
+
 message RecommendationResponse {
     repeated BookRecommendation recommendations = 1;
 }
 
 service Recommendations {
     rpc Recommend (RecommendationRequest) returns (RecommendationResponse);
+    rpc Dummy (SingleInput) returns (SingleOutput);
 }

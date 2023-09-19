@@ -2,7 +2,7 @@ import grpc
 import os
 
 from pb.recommendations_pb2_grpc import RecommendationsStub
-from pb.recommendations_pb2 import BookCategory, RecommendationRequest
+from pb.recommendations_pb2 import BookCategory, RecommendationRequest, SingleInput
 
 
 PORT = os.environ.get("GRPC_PORT", "50050")
@@ -23,6 +23,17 @@ try:
         recommendation_request
     )
     print(result.recommendations[0])
+except Exception as e:
+    print(
+        "Request Failed : ",
+        str(e)
+    )
+
+try:
+    result = client.Dummy(
+        SingleInput(request="")
+    )
+    print(result)
 except Exception as e:
     print(
         "Request Failed : ",
